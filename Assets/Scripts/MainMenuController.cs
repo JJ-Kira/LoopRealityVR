@@ -21,18 +21,18 @@ public class MainMenuController : MonoBehaviour
         fileValid = false;
         playButton.interactable = false;
         fileReader = fileHolder.GetComponent<FileReader>();
-        path = Application.persistentDataPath + "\\LoopReality\\";
+        path = Application.persistentDataPath + "/LoopReality/";
         //path = "E:\\Julia\\PCL\\";
     }
-    public void LoadFile()
+    public void LoadFile(string selectedTitle)
     {
-        folder = title.text;
-        if (System.IO.File.Exists(path + folder + "\\kinectv2-settings.vrfilm"))
+        folder = selectedTitle;
+        if (System.IO.File.Exists(path + folder + "/kinectv2-settings.vrfilm"))
         {
-            path += folder;
-            fileReader.SetVariables(path);
+            fileReader.SetVariables(path + folder);
             Debug.Log("Folder loaded and can be transfered to the next scene");
-            playButton.interactable = true;
+            if (!playButton.interactable)
+                playButton.interactable = true;
         }
         else
         {
@@ -44,7 +44,7 @@ public class MainMenuController : MonoBehaviour
     public void Play()
     {
         bool isPcd = true;
-        foreach (string line in System.IO.File.ReadLines(path + @"/kinectv2-settings.vrfilm"))
+        foreach (string line in System.IO.File.ReadLines(path + folder + @"/kinectv2-settings.vrfilm"))
         {
             if (line == "ply") isPcd = false;
             break;
